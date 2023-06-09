@@ -15,4 +15,7 @@ if __name__ == '__main__':
     processor.fillMissValues(
         [("Sex", MissValueStrategy.MODE), ("Amount_spent", MissValueStrategy.MEAN),
          ("Employees_status", MissValueStrategy.MODE), ("Age", MissValueStrategy.MEDIAN)])
-    dataArr.info()
+
+    result = dataArr[['Employees_status', 'Amount_spent']].groupby(['Employees_status']).agg(
+        ['mean'])
+    print(result)
