@@ -23,16 +23,19 @@ class PreProcessor:
     def removeDuplicates(self):
         self.dataFrame.drop_duplicates(keep='first', inplace=True)
 
-    def dropNanRows(self,columns):
-        self.dataFrame.dropna(subset = columns, inplace = True)
+    def dropNanRows(self, columns):
+        self.dataFrame.dropna(subset=columns, inplace=True)
 
-
-    def fillMissValues(self,columnsWithStrategy):
+    def fillMissValues(self, columnsWithStrategy):
         for itPair in columnsWithStrategy:
             strategy = itPair[1]
             if strategy == MissValueStrategy.MODE:
-                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].mode().iloc[0],inplace = True)
+                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].mode().iloc[0],
+                                                 inplace=True)
             elif strategy == MissValueStrategy.MEAN:
-                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].mean(),inplace = True)
+                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].mean(), inplace=True)
             elif strategy == MissValueStrategy.MEDIAN:
-                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].median(),inplace = True)
+                self.dataFrame[itPair[0]].fillna(self.dataFrame[itPair[0]].median(), inplace=True)
+
+    def categorizeNumbericValueOf(self, columnName, new_name_column, bins, labels):
+        self.dataFrame[new_name_column] = pd.cut(self.dataFrame[columnName], bins=bins, labels=labels)
